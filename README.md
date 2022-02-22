@@ -2,7 +2,7 @@
 
 You want to use Oracle's free tier to launch a remote development server of IntelliJ IDEA but noticed that Jetbrains still doesn't support ARM? This is the script for you!
 
-**Note: You'll need to be using Ubuntu 20.04 for now later, it will support other operational systems.**
+**Note: You'll need to be using Ubuntu 20.04 for now, later it will support other operational systems.**
 
 ## ⚙️ Setup
 ```bash
