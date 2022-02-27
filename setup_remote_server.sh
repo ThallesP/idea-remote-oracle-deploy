@@ -2,6 +2,15 @@
 
 IDEA_VERSION="2021.3.2"
 
+if [ -f /etc/ls-release ]; then
+    OS="Ubuntu"
+elif [ -f /etc/redhat-release ]; then
+    OS="CentOS"
+else
+   echo "Unsupported distro, only Centos, Oracle Linux, and Ubuntu is supported by now."
+   exit
+fi
+
 # If you're using another version of IDEA, you'll have to change this to the correspond version
 # More info: https://github.com/JetBrains/JetBrainsRuntime#releases
 # Make sure you're installing for the aarch64.
@@ -26,8 +35,13 @@ tar -xvf ~/.cache/JetBrains/RemoteDev/dist/jbr.tar.gz -C ~/.cache/JetBrains/Remo
 rm -r ~/.cache/JetBrains/RemoteDev/dist/jbr.tar.gz
 
 echo "Installing OpenJDK 11"
-sudo apt-get update -y
-sudo apt-get install openjdk-11-jdk -y
+if [ $OS = "Ubuntu" ]; then
+  sudo apt-get update -y
+  sudo apt-get install openjdk-11-jdk -y
+else
+  sudo yum update -y
+  sudo yum install java-11-openjdk -y
+fi
 
 echo "Success! Now, you can launch the remote server by executing \"~/.cache/JetBrains/RemoteDev/dist/idea-$IDEA_VERSION/bin/remote-dev-server.sh run <your project's dir>\""
 echo "Also, if you want to leave it running, take a look at systemd."
