@@ -1,0 +1,64 @@
+---
+- name: Install JetBrain's Remote Development
+  hosts: localhost
+  connection: local
+  vars_prompt:
+    - name: ide_download_link
+      prompt: Paste here the ide download link
+  vars:
+    hash_from_link: "{{ ( ide_download_link | hash('sha256') )[0:13] }}"
+    ide_path: ~/.cache/JetBrains/RemoteDev/dist/{{ hash_from_link }}_ide
+    jbr_ide_download_link: https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.5-linux-aarch64-b653.14.tar.gz
+
+  tasks:
+    - debug:
+        msg: "{{ ide_path }}"
+    - name: Make sure dist folder exists
+      file:
+        path: "{{ ide_path }}"
+        state: directory
+
+    - name: Make sure IDE archive is downloaded
+      get_url:
+        url: "{{ ide_download_link }}"
+        dest: /tmp/ide.tar.gz
+
+    - name: Make sure IDE archive is extracted
+      unarchive:
+        src: /tmp/ide.tar.gz
+        remote_src: yes
+        extra_opts: "--strip-components=1"
+        dest: "{{ ide_path }}"
+
+    - name: Make sure JBR is downloaded
+      get_url:
+        url: "{{ jbr_ide_download_link }}"
+        dest: /tmp/jbr.ide.tar.gz
+
+    - name: Make sure JBR in the IDE path is missing
+      file:
+        path: "{{ ide_path }}/jbr"
+        state: absent
+
+    - name: Make sure JBR folder exists
+      file:
+        path: "{{ ide_path }}/jbr"
+        state: directory
+
+    - name: Make sure JBR archive is extracted
+      unarchive:
+        src: /tmp/jbr.ide.tar.gz
+        remote_src: yes
+        extra_opts: "--strip-components=1"
+        dest: "{{ ide_path }}/jbr"
+
+    - name: "Make sure launcher.sh supports aarch64 libraries"
+      replace:
+        path: "{{ ide_path }}/plugins/remote-dev-server/bin/launcher.sh"
+        regexp: "\/lib64\/ld-linux-x86-64.so.2"
+        replace: "/lib/ld-linux-aarch64.so.1"
+
+    - name: Make sure IDE is recognized by remote dev workers
+      file:
+        path: "{{ ide_path }}/.expandSucceeded"
+        state: touch
