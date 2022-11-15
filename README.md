@@ -14,6 +14,7 @@ cd idea-remote-oracle-deploy
 ## 🚀 How to run the script
 
 ```bash
+# You should run this on the server and not on your machine
 ansible-playbook install-remote-dev.yaml
 ```
 
