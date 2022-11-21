@@ -25,7 +25,7 @@ You'll be asked for the IDE download link, copy your ide link below.
 | IDE               | Link                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | **Web Storm**     | https://download-cdn.jetbrains.com/webstorm/WebStorm-2022.2.3.tar.gz |
-| **IntelliJ Idea** | https://download-cdn.jetbrains.com/idea/ideaIC-2022.2.3.tar.gz       |
+| **IntelliJ Idea** | https://download-cdn.jetbrains.com/idea/ideaIU-2022.2.3.tar.gz       |
 
 ## 🤔 Questions
 
