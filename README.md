@@ -18,6 +18,10 @@ cd idea-remote-oracle-deploy
 ansible-playbook install-remote-dev.yaml
 ```
 
+## ✨ How do I connect?
+Open your favorite IDE, go to the remote development tab (normally is in the select project screen), create a new ssh connection, put your ssh credentials and hit login, then you can select your favorite IDE from the dropdown. 
+
+
 # ⚙️ Configuration
 
 You'll be asked for the IDE download link, copy your ide link below.
